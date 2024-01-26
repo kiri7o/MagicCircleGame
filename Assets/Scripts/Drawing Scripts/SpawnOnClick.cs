@@ -10,6 +10,7 @@ public class SpawnOnClick : MonoBehaviour
     public Color c2 = Color.red;
     public float minAddLineDistance;
 
+    private Vector3 centroidCoords;
 
     // Start is called before the first frame update
     void Start()
@@ -54,8 +55,8 @@ public class SpawnOnClick : MonoBehaviour
                 lineRenderer.positionCount++;
                 lineRenderer.SetPosition(lineRenderer.positionCount-1, newSpot);
             }
-
-            renderCentroid(calculateCentroid(lineRenderer));
+            centroidCoords = calculateCentroid(lineRenderer);
+            renderCentroid(centroidCoords);
         }
 
         //When the mouse is released, delete all points.
@@ -63,6 +64,11 @@ public class SpawnOnClick : MonoBehaviour
         if(Input.GetMouseButtonUp(0))
         {
             lineRenderer.positionCount = 0;
+            GameObject centroidSphere = GameObject.Find("centroidTest");
+            if(centroidSphere != null )
+            {
+                GameObject.Destroy(centroidSphere);
+            }
         }
 
         
@@ -126,4 +132,10 @@ public class SpawnOnClick : MonoBehaviour
         sphere.transform.position = centroid;
 
     }
+
+    public Vector3 getCentroidCoords ()
+    {
+        return centroidCoords;
+    }
+
 }
